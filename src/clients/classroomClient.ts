@@ -29,13 +29,13 @@ export default class ClassroomClient {
         collection(db, "students"),
         where("classroomId", "==", id)
       )
-      const studens: any[] = []
+      const students: any[] = []
 
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
-        studens.push({ id: doc.id, ...doc.data() })
+        students.push({ id: doc.id, ...doc.data() })
       })
-      return { ...docSnap.data(), studens }
+      return { ...docSnap.data(), students }
     }
     return null
   }

@@ -15,14 +15,14 @@ const studentClient = new StudentClient()
 const upload = multer({ dest: join(__dirname, "../uploads") })
 
 classroomRouter.get("/", async (req, res) => {
-  const teachers = await classroomClient.getAllClassroom()
-  res.json(teachers).status(200)
+  const classrooms = await classroomClient.getAllClassroom()
+  res.json(classrooms).status(200)
 })
 
 classroomRouter.get("/:id", async (req, res) => {
-  const teacher = await classroomClient.getClassroom(req.params.id)
-  if (teacher) {
-    return res.status(200).json(teacher)
+  const classroom = await classroomClient.getClassroom(req.params.id)
+  if (classroom) {
+    return res.status(200).json(classroom)
   }
   return res.status(404).send("Not found")
 })
@@ -58,7 +58,8 @@ classroomRouter.post("/:id/upload", upload.single("file"), async (req, res) => {
         students.push(
           studentClient.createStudent({
             classroomId: req.params.id,
-            ...student,
+            massarCode: student.massarCode,
+            name: student.name,
           })
         )
       })
