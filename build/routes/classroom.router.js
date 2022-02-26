@@ -38,10 +38,11 @@ const studentClient_1 = __importDefault(require("../clients/studentClient"));
 const csvParser_1 = __importDefault(require("../utils/csvParser"));
 const classroomValidation = __importStar(require("../validations/classroom.validation"));
 const path_1 = require("path");
+const path_2 = require("path");
 const classroomRouter = (0, express_1.Router)();
 const classroomClient = new classroomClient_1.default();
 const studentClient = new studentClient_1.default();
-const upload = (0, multer_1.default)({ dest: "/temp/upload" });
+const upload = (0, multer_1.default)({ dest: (0, path_2.join)(__dirname, "../uploads") });
 classroomRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teachers = yield classroomClient.getAllClassroom();
     res.json(teachers).status(200);
@@ -77,7 +78,6 @@ classroomRouter.post("/:id/upload", upload.single("file"), (req, res) => __await
         }))
             .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
             const data = yield Promise.all(students);
-            console.log(data);
             return res.status(200).json({ data, code: 200 });
         }));
     }

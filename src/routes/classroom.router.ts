@@ -6,11 +6,13 @@ import csvParser from "../utils/csvParser"
 import * as classroomValidation from "../validations/classroom.validation"
 import { extname } from "path"
 import { csvParserType } from "../types"
+import { join } from "path"
 
 const classroomRouter = Router()
 const classroomClient = new ClassroomClient()
 const studentClient = new StudentClient()
-const upload = multer({ dest: "/temp/upload" })
+
+const upload = multer({ dest: join(__dirname, "../uploads") })
 
 classroomRouter.get("/", async (req, res) => {
   const teachers = await classroomClient.getAllClassroom()
@@ -62,7 +64,6 @@ classroomRouter.post("/:id/upload", upload.single("file"), async (req, res) => {
       })
       .on("end", async () => {
         const data = await Promise.all(students)
-        console.log(data)
         return res.status(200).json({ data, code: 200 })
       })
   } else {
