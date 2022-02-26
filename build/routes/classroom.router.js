@@ -44,13 +44,13 @@ const classroomClient = new classroomClient_1.default();
 const studentClient = new studentClient_1.default();
 const upload = (0, multer_1.default)({ dest: (0, path_2.join)(__dirname, "../uploads") });
 classroomRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const teachers = yield classroomClient.getAllClassroom();
-    res.json(teachers).status(200);
+    const classrooms = yield classroomClient.getAllClassroom();
+    res.json(classrooms).status(200);
 }));
 classroomRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const teacher = yield classroomClient.getClassroom(req.params.id);
-    if (teacher) {
-        return res.status(200).json(teacher);
+    const classroom = yield classroomClient.getClassroom(req.params.id);
+    if (classroom) {
+        return res.status(200).json(classroom);
     }
     return res.status(404).send("Not found");
 }));
@@ -74,7 +74,11 @@ classroomRouter.post("/:id/upload", upload.single("file"), (req, res) => __await
         const students = [];
         (0, csvParser_1.default)(req.file)
             .on("data", (student) => __awaiter(void 0, void 0, void 0, function* () {
-            students.push(studentClient.createStudent(Object.assign({ classroomId: req.params.id }, student)));
+            students.push(studentClient.createStudent({
+                classroomId: req.params.id,
+                massarCode: student.massarCode,
+                name: student.name,
+            }));
         }))
             .on("end", () => __awaiter(void 0, void 0, void 0, function* () {
             const data = yield Promise.all(students);
