@@ -23,7 +23,7 @@ class TeacherClient {
                 fullname,
                 email,
                 role: users_1.Users.teacher,
-                invitation_code: (0, generateFixRandomNumber_1.default)(4),
+                invitationCode: (0, generateFixRandomNumber_1.default)(4),
             });
             return yield this.getTeacher(docRef.id);
         });

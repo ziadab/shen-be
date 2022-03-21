@@ -16,7 +16,4 @@ app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use("/teachers", teacher_router_1.default);
 app.use("/classrooms", classroom_router_1.default);
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-    console.log(`🚀 listening on ${port}...`);
-});
+exports.default = app;

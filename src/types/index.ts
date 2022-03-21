@@ -8,3 +8,12 @@ export type createStudent = {
   name: string
   massarCode: string
 }
+
+export type createSession = {
+  day: string
+  startTime: string
+  endTime: string
+  classId: string
+  teacherId: string
+  subject: string
+}

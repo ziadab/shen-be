@@ -16,7 +16,4 @@ app.use(express.json())
 app.use("/teachers", teacherRoute)
 app.use("/classrooms", classroomRouter)
 
-const port = process.env.PORT || 5000
-app.listen(port, () => {
-  console.log(`🚀 listening on ${port}...`)
-})
+export default app
