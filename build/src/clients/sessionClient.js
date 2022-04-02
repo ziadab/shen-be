@@ -25,9 +25,12 @@ class SessionClient {
     createSessions(sessions) {
         return __awaiter(this, void 0, void 0, function* () {
             const promises = sessions.map((el) => __awaiter(this, void 0, void 0, function* () {
-                const sessionExist = yield this.checkSessionExist(el.classId, el.teacherId, el.day);
-                if (sessionExist)
-                    return;
+                // const sessionExist = await this.checkSessionExist(
+                //   el.classId,
+                //   el.teacherId,
+                //   el.day
+                // )
+                // if (sessionExist) return
                 const docRef = yield (0, firestore_1.addDoc)(this.docRef, el);
                 return this.getSessionById(docRef.id);
             }));

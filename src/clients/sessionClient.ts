@@ -20,12 +20,12 @@ export default class SessionClient {
 
   async createSessions(sessions: createSession[]) {
     const promises = sessions.map(async (el) => {
-      const sessionExist = await this.checkSessionExist(
-        el.classId,
-        el.teacherId,
-        el.day
-      )
-      if (sessionExist) return
+      // const sessionExist = await this.checkSessionExist(
+      //   el.classId,
+      //   el.teacherId,
+      //   el.day
+      // )
+      // if (sessionExist) return
       const docRef = await addDoc(this.docRef, el)
       return this.getSessionById(docRef.id)
     })
