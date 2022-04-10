@@ -2,7 +2,7 @@ import { Router } from "express"
 import ClassroomClient from "../clients/classroomClient"
 import SessionClient from "../clients/sessionClient"
 import TeacherClient from "../clients/teacherClient"
-import { createSession } from "../types"
+import { createSessions } from "../types"
 import * as sessionValidation from "../validations/session.validation"
 import * as teacherValidation from "../validations/teacher.validation"
 
@@ -36,8 +36,8 @@ teacherRoute.post("/", async (req, res) => {
 })
 
 teacherRoute.post("/:id/sessions", async (req, res) => {
-  const reqData: createSession[] = req.body.sessions
-  const { error, value } = sessionValidation.createSession.validate(
+  const reqData: createSessions = req.body.sessions
+  const { error, value } = sessionValidation.createSessions.validate(
     reqData.map((el) => ({ ...el, teacherId: req.params.id }))
   )
 
@@ -56,7 +56,7 @@ teacherRoute.post("/:id/sessions", async (req, res) => {
       .status(401)
       .json({ message: "teacher or classroom does not exist", status: 401 })
 
-  const data = await sessionClient.createSessions(value)
+  const data = await sessionClient.createSessionss(value)
   return res.status(200).json(data)
 })
 

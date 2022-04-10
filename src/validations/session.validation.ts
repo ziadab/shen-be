@@ -15,6 +15,7 @@ const session = Joi.object().keys({
   subject: Joi.string().required(),
 })
 
-const createSession = Joi.array().items(session).min(1).max(6).required()
+const createSessions = Joi.array().items(session).min(1).max(6).required()
+const updateSession = session
 
-export { createSession }
+export { createSessions, updateSession }

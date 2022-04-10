@@ -2,13 +2,15 @@ import {
   doc,
   getDoc,
   addDoc,
+  deleteDoc,
+  updateDoc,
   where,
   query,
   collection,
   getDocs,
 } from "firebase/firestore"
 import { db } from "."
-import { createSession } from "../types"
+import { createSessions, Session } from "../types"
 import ClassroomClient from "./classroomClient"
 import TeacherClient from "./teacherClient"
 
@@ -18,7 +20,7 @@ const classroomClient = new ClassroomClient()
 export default class SessionClient {
   docRef = collection(db, "session")
 
-  async createSessions(sessions: createSession[]) {
+  async createSessionss(sessions: createSessions[]) {
     const promises = sessions.map(async (el) => {
       // const sessionExist = await this.checkSessionExist(
       //   el.classId,
@@ -83,5 +85,15 @@ export default class SessionClient {
     const querySnapshot = await getDocs(q)
     if (querySnapshot.docs.length == 0) return false
     return true
+  }
+
+  async deleteSession(id: string) {
+    const docRef = doc(db, "session", id)
+    await deleteDoc(docRef)
+  }
+
+  async updateSession(id: string, data: Session) {
+    const docRef = doc(db, "session", id)
+    await updateDoc(docRef, { ...data })
   }
 }

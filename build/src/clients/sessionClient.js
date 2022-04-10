@@ -22,7 +22,7 @@ class SessionClient {
     constructor() {
         this.docRef = (0, firestore_1.collection)(_1.db, "session");
     }
-    createSessions(sessions) {
+    createSessionss(sessions) {
         return __awaiter(this, void 0, void 0, function* () {
             const promises = sessions.map((el) => __awaiter(this, void 0, void 0, function* () {
                 // const sessionExist = await this.checkSessionExist(
@@ -82,6 +82,18 @@ class SessionClient {
             if (querySnapshot.docs.length == 0)
                 return false;
             return true;
+        });
+    }
+    deleteSession(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const docRef = (0, firestore_1.doc)(_1.db, "session", id);
+            yield (0, firestore_1.deleteDoc)(docRef);
+        });
+    }
+    updateSession(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const docRef = (0, firestore_1.doc)(_1.db, "session", id);
+            yield (0, firestore_1.updateDoc)(docRef, Object.assign({}, data));
         });
     }
 }

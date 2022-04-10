@@ -31,39 +31,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const classroomClient_1 = __importDefault(require("../clients/classroomClient"));
-const sessionClient_1 = __importDefault(require("../clients/sessionClient"));
-const teacherClient_1 = __importDefault(require("../clients/teacherClient"));
 const sessionValidation = __importStar(require("../validations/session.validation"));
-const sessionRouter = (0, express_1.Router)();
-const classroomClient = new classroomClient_1.default();
-const teacherClient = new teacherClient_1.default();
+const sessionClient_1 = __importDefault(require("../clients/sessionClient"));
+const express_1 = require("express");
 const sessionClient = new sessionClient_1.default();
-sessionRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reqData = req.body.sessions;
-    const { error, value } = sessionValidation.createSession.validate(reqData);
+const router = (0, express_1.Router)();
+router.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    yield sessionClient.deleteSession(id);
+    return res.status(201).send("deleted");
+}));
+router.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const sessionData = req.body;
+    const { error, value } = sessionValidation.updateSession.validate(sessionData);
     if (error) {
         const message = error.details.map((details) => details.message).join(", ");
         return res.status(400).json({ message, code: 400 });
     }
-    const [classroomExist, teacherExist] = yield Promise.all([
-        classroomClient.getClassroom(reqData[0].classId),
-        teacherClient.getTeacher(reqData[0].teacherId),
-    ]);
-    if (!classroomExist || !teacherExist)
-        return res
-            .status(401)
-            .json({ message: "teacher or classroom does not exist", status: 401 });
-    const data = yield sessionClient.createSessions(reqData);
-    return res.status(200).json(data);
+    yield sessionClient.updateSession(id, value);
+    const data = yield sessionClient.getSessionById(id);
+    res.status(200).json(data);
 }));
-sessionRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const teacherId = req.params.id;
-    const teacherExist = yield teacherClient.getTeacher(teacherId);
-    if (!teacherExist)
-        return res.status(404).json({ message: "Not found" });
-    const data = yield sessionClient.getSessionByTeacherId(teacherId);
-    return res.status(200).json({ data });
-}));
-exports.default = sessionRouter;
+exports.default = router;

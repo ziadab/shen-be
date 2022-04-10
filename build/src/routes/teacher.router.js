@@ -63,7 +63,7 @@ teacherRoute.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
 }));
 teacherRoute.post("/:id/sessions", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reqData = req.body.sessions;
-    const { error, value } = sessionValidation.createSession.validate(reqData.map((el) => (Object.assign(Object.assign({}, el), { teacherId: req.params.id }))));
+    const { error, value } = sessionValidation.createSessions.validate(reqData.map((el) => (Object.assign(Object.assign({}, el), { teacherId: req.params.id }))));
     if (error) {
         const message = error.details.map((details) => details.message).join(", ");
         return res.status(400).json({ message, code: 400 });
@@ -76,7 +76,7 @@ teacherRoute.post("/:id/sessions", (req, res) => __awaiter(void 0, void 0, void 
         return res
             .status(401)
             .json({ message: "teacher or classroom does not exist", status: 401 });
-    const data = yield sessionClient.createSessions(value);
+    const data = yield sessionClient.createSessionss(value);
     return res.status(200).json(data);
 }));
 exports.default = teacherRoute;

@@ -9,7 +9,7 @@ export type createStudent = {
   massarCode: string
 }
 
-export type createSession = {
+export type Session = {
   day: string
   startTime: string
   endTime: string
@@ -17,3 +17,5 @@ export type createSession = {
   teacherId: string
   subject: string
 }
+
+export type createSessions = Array<Session>

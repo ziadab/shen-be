@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createSession = void 0;
+exports.updateSession = exports.createSessions = void 0;
 const joi_1 = __importDefault(require("joi"));
 const session = joi_1.default.object().keys({
     day: joi_1.default.string()
@@ -19,5 +19,7 @@ const session = joi_1.default.object().keys({
     teacherId: joi_1.default.string().required(),
     subject: joi_1.default.string().required(),
 });
-const createSession = joi_1.default.array().items(session).min(1).max(6).required();
-exports.createSession = createSession;
+const createSessions = joi_1.default.array().items(session).min(1).max(6).required();
+exports.createSessions = createSessions;
+const updateSession = session;
+exports.updateSession = updateSession;
