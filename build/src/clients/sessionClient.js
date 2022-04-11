@@ -22,20 +22,20 @@ class SessionClient {
     constructor() {
         this.docRef = (0, firestore_1.collection)(_1.db, "session");
     }
-    createSessionss(sessions) {
+    createSession(sessions) {
         return __awaiter(this, void 0, void 0, function* () {
-            const promises = sessions.map((el) => __awaiter(this, void 0, void 0, function* () {
-                // const sessionExist = await this.checkSessionExist(
-                //   el.classId,
-                //   el.teacherId,
-                //   el.day
-                // )
-                // if (sessionExist) return
-                const docRef = yield (0, firestore_1.addDoc)(this.docRef, el);
-                return this.getSessionById(docRef.id);
-            }));
-            const result = yield Promise.all(promises);
-            return result;
+            // const promises = sessions.map(async (el) => {
+            //   // const sessionExist = await this.checkSessionExist(
+            //   //   el.classId,
+            //   //   el.teacherId,
+            //   //   el.day
+            //   // )
+            //   // if (sessionExist) return
+            const docRef = yield (0, firestore_1.addDoc)(this.docRef, sessions);
+            return this.getSessionById(docRef.id);
+            // })
+            // const result = await Promise.all(promises)
+            // return result
         });
     }
     getSessionById(id) {
@@ -94,6 +94,7 @@ class SessionClient {
         return __awaiter(this, void 0, void 0, function* () {
             const docRef = (0, firestore_1.doc)(_1.db, "session", id);
             yield (0, firestore_1.updateDoc)(docRef, Object.assign({}, data));
+            return this.getSessionById(id);
         });
     }
 }

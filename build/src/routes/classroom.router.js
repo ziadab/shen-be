@@ -75,7 +75,7 @@ classroomRouter.post("/:id/upload", upload.single("file"), (req, res) => __await
         (0, csvParser_1.default)(req.file)
             .on("data", (student) => __awaiter(void 0, void 0, void 0, function* () {
             students.push(studentClient.createStudent({
-                classroomId: req.params.id,
+                classId: req.params.id,
                 massarCode: student.massarCode,
                 name: student.name,
             }));

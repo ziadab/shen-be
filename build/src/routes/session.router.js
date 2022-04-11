@@ -49,8 +49,7 @@ router.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const message = error.details.map((details) => details.message).join(", ");
         return res.status(400).json({ message, code: 400 });
     }
-    yield sessionClient.updateSession(id, value);
-    const data = yield sessionClient.getSessionById(id);
+    const data = yield sessionClient.updateSession(id, value);
     res.status(200).json(data);
 }));
 exports.default = router;

@@ -20,20 +20,20 @@ const classroomClient = new ClassroomClient()
 export default class SessionClient {
   docRef = collection(db, "session")
 
-  async createSessionss(sessions: createSessions[]) {
-    const promises = sessions.map(async (el) => {
-      // const sessionExist = await this.checkSessionExist(
-      //   el.classId,
-      //   el.teacherId,
-      //   el.day
-      // )
-      // if (sessionExist) return
-      const docRef = await addDoc(this.docRef, el)
-      return this.getSessionById(docRef.id)
-    })
+  async createSession(sessions: Session) {
+    // const promises = sessions.map(async (el) => {
+    //   // const sessionExist = await this.checkSessionExist(
+    //   //   el.classId,
+    //   //   el.teacherId,
+    //   //   el.day
+    //   // )
+    //   // if (sessionExist) return
+    const docRef = await addDoc(this.docRef, sessions)
+    return this.getSessionById(docRef.id)
+    // })
 
-    const result = await Promise.all(promises)
-    return result
+    // const result = await Promise.all(promises)
+    // return result
   }
 
   async getSessionById(id: string) {
@@ -95,5 +95,6 @@ export default class SessionClient {
   async updateSession(id: string, data: Session) {
     const docRef = doc(db, "session", id)
     await updateDoc(docRef, { ...data })
+    return this.getSessionById(id)
   }
 }

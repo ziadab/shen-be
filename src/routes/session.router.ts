@@ -20,8 +20,7 @@ router.patch("/:id", async (req, res) => {
     const message = error.details.map((details) => details.message).join(", ")
     return res.status(400).json({ message, code: 400 })
   }
-  await sessionClient.updateSession(id, value)
-  const data = await sessionClient.getSessionById(id)
+  const data = await sessionClient.updateSession(id, value)
   res.status(200).json(data)
 })
 

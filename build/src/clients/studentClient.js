@@ -37,5 +37,18 @@ class StudentClient {
             return students;
         });
     }
+    deleteStudent(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const docRef = (0, firestore_1.doc)(_1.db, "students", id);
+            yield (0, firestore_1.deleteDoc)(docRef);
+        });
+    }
+    updateStudent(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const docRef = (0, firestore_1.doc)(_1.db, "students", id);
+            yield (0, firestore_1.updateDoc)(docRef, Object.assign({}, data));
+            return this.getStudent(id);
+        });
+    }
 }
 exports.default = StudentClient;
