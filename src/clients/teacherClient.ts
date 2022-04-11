@@ -10,6 +10,7 @@ export default class TeacherClient {
       email,
       role: Users.teacher,
       invitationCode: generateFixRandomNumber(4),
+      id: "",
     })
 
     return await this.getTeacher(docRef.id)

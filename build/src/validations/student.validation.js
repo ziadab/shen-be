@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClassroom = void 0;
+exports.createStudent = void 0;
 const joi_1 = __importDefault(require("joi"));
-const createClassroom = joi_1.default.object().keys({
-    name: joi_1.default.string().required().min(10),
-    abbreviation: joi_1.default.string().required().max(3),
+const createStudent = joi_1.default.object().keys({
+    classId: joi_1.default.string().required(),
+    name: joi_1.default.string().required(),
+    massarCode: joi_1.default.string().required(),
 });
-exports.createClassroom = createClassroom;
+exports.createStudent = createStudent;

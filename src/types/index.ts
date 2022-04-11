@@ -4,7 +4,7 @@ export type csvParserType = {
 }
 
 export type createStudent = {
-  classroomId: string
+  classId: string
   name: string
   massarCode: string
 }

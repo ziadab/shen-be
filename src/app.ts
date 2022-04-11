@@ -5,6 +5,7 @@ import helmet from "helmet"
 import teacherRoute from "./routes/teacher.router"
 import classroomRouter from "./routes/classroom.router"
 import sessionRouter from "./routes/session.router"
+import studentRouter from "./routes/student.router"
 
 dotenv.config()
 
@@ -17,5 +18,6 @@ app.use(express.json())
 app.use("/teachers", teacherRoute)
 app.use("/classrooms", classroomRouter)
 app.use("/sessions", sessionRouter)
+app.use("/student", studentRouter)
 
 export default app

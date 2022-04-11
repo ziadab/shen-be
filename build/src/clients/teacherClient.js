@@ -24,6 +24,7 @@ class TeacherClient {
                 email,
                 role: users_1.Users.teacher,
                 invitationCode: (0, generateFixRandomNumber_1.default)(4),
+                id: "",
             });
             return yield this.getTeacher(docRef.id);
         });

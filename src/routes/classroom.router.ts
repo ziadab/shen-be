@@ -57,7 +57,7 @@ classroomRouter.post("/:id/upload", upload.single("file"), async (req, res) => {
       .on("data", async (student: csvParserType) => {
         students.push(
           studentClient.createStudent({
-            classroomId: req.params.id,
+            classId: req.params.id,
             massarCode: student.massarCode,
             name: student.name,
           })
