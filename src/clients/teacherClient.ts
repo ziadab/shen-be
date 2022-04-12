@@ -10,7 +10,7 @@ export default class TeacherClient {
       email,
       role: Users.teacher,
       invitationCode: generateFixRandomNumber(4),
-      id: "",
+      loginId: "",
     })
 
     return await this.getTeacher(docRef.id)
@@ -19,7 +19,7 @@ export default class TeacherClient {
   async getTeacher(id: string) {
     const docRef = doc(db, "teachers", id)
     const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) return docSnap.data()
+    if (docSnap.exists()) return { ...docSnap.data(), id: docSnap.id }
     return null
   }
 

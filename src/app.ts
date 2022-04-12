@@ -18,6 +18,6 @@ app.use(express.json())
 app.use("/teachers", teacherRoute)
 app.use("/classrooms", classroomRouter)
 app.use("/sessions", sessionRouter)
-app.use("/student", studentRouter)
+app.use("/students", studentRouter)
 
 export default app
