@@ -19,5 +19,5 @@ app.use(express_1.default.json());
 app.use("/teachers", teacher_router_1.default);
 app.use("/classrooms", classroom_router_1.default);
 app.use("/sessions", session_router_1.default);
-app.use("/student", student_router_1.default);
+app.use("/students", student_router_1.default);
 exports.default = app;

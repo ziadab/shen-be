@@ -24,7 +24,7 @@ class TeacherClient {
                 email,
                 role: users_1.Users.teacher,
                 invitationCode: (0, generateFixRandomNumber_1.default)(4),
-                id: "",
+                loginId: "",
             });
             return yield this.getTeacher(docRef.id);
         });
@@ -34,7 +34,7 @@ class TeacherClient {
             const docRef = (0, firestore_1.doc)(_1.db, "teachers", id);
             const docSnap = yield (0, firestore_1.getDoc)(docRef);
             if (docSnap.exists())
-                return docSnap.data();
+                return Object.assign(Object.assign({}, docSnap.data()), { id: docSnap.id });
             return null;
         });
     }
