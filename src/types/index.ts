@@ -18,4 +18,17 @@ export type Session = {
   subject: string
 }
 
+type classroomDetail = {
+  currentAttends: number
+  currentAbsence: number
+  name: string
+}
+
+export type DashboardData = {
+  currentClasses: number
+  currentAttends: number
+  currentAbsence: number
+  classrooms: classroomDetail[]
+}
+
 export type createSessions = Array<Session>

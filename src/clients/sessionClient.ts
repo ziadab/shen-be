@@ -10,7 +10,7 @@ import {
   getDocs,
 } from "firebase/firestore"
 import { db } from "."
-import { createSessions, Session } from "../types"
+import { Session } from "../types"
 import ClassroomClient from "./classroomClient"
 import TeacherClient from "./teacherClient"
 
@@ -96,5 +96,18 @@ export default class SessionClient {
     const docRef = doc(db, "session", id)
     await updateDoc(docRef, { ...data })
     return this.getSessionById(id)
+  }
+
+  async getSessionByTime(time: string): Promise<Array<Session>> {
+    const temp: Session[] = []
+
+    const q = query(this.docRef, where("startTime", "<=", time))
+    const querySnapshot = await getDocs(q)
+    if (querySnapshot.docs.length == 0) temp
+    querySnapshot.forEach((doc) => {
+      const data = doc.data() as Session
+      if (data.endTime >= time) temp.push(data)
+    })
+    return temp
   }
 }

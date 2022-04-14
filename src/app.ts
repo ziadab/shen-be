@@ -6,6 +6,7 @@ import teacherRoute from "./routes/teacher.router"
 import classroomRouter from "./routes/classroom.router"
 import sessionRouter from "./routes/session.router"
 import studentRouter from "./routes/student.router"
+import dashboardRouter from "./routes/dashboard.router"
 
 dotenv.config()
 
@@ -19,5 +20,6 @@ app.use("/teachers", teacherRoute)
 app.use("/classrooms", classroomRouter)
 app.use("/sessions", sessionRouter)
 app.use("/students", studentRouter)
+app.use("/dashboard", dashboardRouter)
 
 export default app
