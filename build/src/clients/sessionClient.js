@@ -97,5 +97,20 @@ class SessionClient {
             return this.getSessionById(id);
         });
     }
+    getSessionByTime(time) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const temp = [];
+            const q = (0, firestore_1.query)(this.docRef, (0, firestore_1.where)("startTime", "<=", time));
+            const querySnapshot = yield (0, firestore_1.getDocs)(q);
+            if (querySnapshot.docs.length == 0)
+                temp;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.endTime >= time)
+                    temp.push(data);
+            });
+            return temp;
+        });
+    }
 }
 exports.default = SessionClient;

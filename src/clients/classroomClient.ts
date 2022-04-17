@@ -25,10 +25,7 @@ export default class ClassroomClient {
     const docRef = doc(db, "classroom", id)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      const q = query(
-        collection(db, "students"),
-        where("classroomId", "==", id)
-      )
+      const q = query(collection(db, "students"), where("classId", "==", id))
       const students: any[] = []
 
       const querySnapshot = await getDocs(q)

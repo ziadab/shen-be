@@ -13,6 +13,7 @@ import { db } from "."
 import { Session } from "../types"
 import ClassroomClient from "./classroomClient"
 import TeacherClient from "./teacherClient"
+import dayjs from "dayjs"
 
 const teacherClient = new TeacherClient()
 const classroomClient = new ClassroomClient()
@@ -98,7 +99,8 @@ export default class SessionClient {
     return this.getSessionById(id)
   }
 
-  async getSessionByTime(time: string): Promise<Array<Session>> {
+  async getCurrentSessions(): Promise<Array<Session>> {
+    const time = dayjs().format("HH:mm")
     const temp: Session[] = []
 
     const q = query(this.docRef, where("startTime", "<=", time))
