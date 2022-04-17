@@ -29,7 +29,7 @@ class ClassroomClient {
             const docRef = (0, firestore_1.doc)(_1.db, "classroom", id);
             const docSnap = yield (0, firestore_1.getDoc)(docRef);
             if (docSnap.exists()) {
-                const q = (0, firestore_1.query)((0, firestore_1.collection)(_1.db, "students"), (0, firestore_1.where)("classroomId", "==", id));
+                const q = (0, firestore_1.query)((0, firestore_1.collection)(_1.db, "students"), (0, firestore_1.where)("classId", "==", id));
                 const students = [];
                 const querySnapshot = yield (0, firestore_1.getDocs)(q);
                 querySnapshot.forEach((doc) => {

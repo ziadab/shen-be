@@ -14,12 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sessionClient_1 = __importDefault(require("../clients/sessionClient"));
 const express_1 = require("express");
-const dayjs_1 = __importDefault(require("dayjs"));
+const classroomExtractor_1 = __importDefault(require("../utils/classroomExtractor"));
+const classroomClient_1 = __importDefault(require("../clients/classroomClient"));
 const router = (0, express_1.Router)();
 const sessionClient = new sessionClient_1.default();
+const classroomClient = new classroomClient_1.default();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const now = (0, dayjs_1.default)().format("HH:mm");
-    const data = yield sessionClient.getSessionByTime(now);
-    return res.json({ hihi: data });
+    const allSession = yield sessionClient.getCurrentSessions();
+    const classrooms = (0, classroomExtractor_1.default)(allSession);
+    const classroomData = yield Promise.all(classrooms.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield classroomClient.getClassroom(el); })));
+    console.log(classroomData);
+    const allStudent = classroomData.reduce((a, b) => {
+        return a + (b === null || b === void 0 ? void 0 : b.students.length);
+    }, 0);
+    return res.json({ hihi: classrooms, allStudent });
 }));
 exports.default = router;

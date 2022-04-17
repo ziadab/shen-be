@@ -16,6 +16,7 @@ const firestore_1 = require("firebase/firestore");
 const _1 = require(".");
 const classroomClient_1 = __importDefault(require("./classroomClient"));
 const teacherClient_1 = __importDefault(require("./teacherClient"));
+const dayjs_1 = __importDefault(require("dayjs"));
 const teacherClient = new teacherClient_1.default();
 const classroomClient = new classroomClient_1.default();
 class SessionClient {
@@ -97,8 +98,9 @@ class SessionClient {
             return this.getSessionById(id);
         });
     }
-    getSessionByTime(time) {
+    getCurrentSessions() {
         return __awaiter(this, void 0, void 0, function* () {
+            const time = (0, dayjs_1.default)().format("HH:mm");
             const temp = [];
             const q = (0, firestore_1.query)(this.docRef, (0, firestore_1.where)("startTime", "<=", time));
             const querySnapshot = yield (0, firestore_1.getDocs)(q);
