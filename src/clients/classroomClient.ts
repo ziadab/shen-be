@@ -32,7 +32,7 @@ export default class ClassroomClient {
       querySnapshot.forEach((doc) => {
         students.push({ id: doc.id, ...doc.data() })
       })
-      return { ...docSnap.data(), students }
+      return { ...docSnap.data(), students, id: docSnap.id }
     }
     return null
   }

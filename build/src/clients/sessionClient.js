@@ -17,6 +17,8 @@ const _1 = require(".");
 const classroomClient_1 = __importDefault(require("./classroomClient"));
 const teacherClient_1 = __importDefault(require("./teacherClient"));
 const dayjs_1 = __importDefault(require("dayjs"));
+const utc_1 = __importDefault(require("dayjs/plugin/utc"));
+dayjs_1.default.extend(utc_1.default);
 const teacherClient = new teacherClient_1.default();
 const classroomClient = new classroomClient_1.default();
 class SessionClient {
@@ -109,10 +111,28 @@ class SessionClient {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 if (data.endTime >= time)
-                    temp.push(data);
+                    temp.push(Object.assign(Object.assign({}, data), { id: doc.id }));
             });
             return temp;
         });
     }
+    getAbsence(sessionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const absence = [];
+            const startDate = (0, dayjs_1.default)().utc().startOf("D").unix();
+            const endDate = (0, dayjs_1.default)().utc().endOf("D").unix();
+            const collectionRef = (0, firestore_1.collection)(_1.db, "absence");
+            const q = (0, firestore_1.query)(collectionRef, (0, firestore_1.where)("sessionId", "==", sessionId));
+            const querySnapshot = yield (0, firestore_1.getDocs)(q);
+            querySnapshot.forEach((el) => {
+                const data = el.data();
+                if (data.time.seconds > startDate && data.time.seconds < endDate)
+                    absence.push(data);
+            });
+            return absence;
+        });
+    }
 }
 exports.default = SessionClient;
+// 1650240000 1650326399
+// 1649449509

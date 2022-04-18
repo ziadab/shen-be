@@ -10,10 +10,13 @@ import {
   getDocs,
 } from "firebase/firestore"
 import { db } from "."
-import { Session } from "../types"
+import { Absence, Session } from "../types"
 import ClassroomClient from "./classroomClient"
 import TeacherClient from "./teacherClient"
 import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+
+dayjs.extend(utc)
 
 const teacherClient = new TeacherClient()
 const classroomClient = new ClassroomClient()
@@ -108,8 +111,26 @@ export default class SessionClient {
     if (querySnapshot.docs.length == 0) temp
     querySnapshot.forEach((doc) => {
       const data = doc.data() as Session
-      if (data.endTime >= time) temp.push(data)
+      if (data.endTime >= time) temp.push({ ...data, id: doc.id })
     })
     return temp
   }
+
+  async getAbsence(sessionId: string) {
+    const absence: Absence[] = []
+    const startDate = dayjs().utc().startOf("D").unix()
+    const endDate = dayjs().utc().endOf("D").unix()
+    const collectionRef = collection(db, "absence")
+    const q = query(collectionRef, where("sessionId", "==", sessionId))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((el) => {
+      const data: Absence = el.data() as Absence
+      if (data.time.seconds > startDate && data.time.seconds < endDate)
+        absence.push(data)
+    })
+    return absence
+  }
 }
+
+// 1650240000 1650326399
+// 1649449509

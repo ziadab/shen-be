@@ -22,11 +22,26 @@ const classroomClient = new classroomClient_1.default();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allSession = yield sessionClient.getCurrentSessions();
     const classrooms = (0, classroomExtractor_1.default)(allSession);
-    const classroomData = yield Promise.all(classrooms.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield classroomClient.getClassroom(el); })));
-    console.log(classroomData);
-    const allStudent = classroomData.reduce((a, b) => {
-        return a + (b === null || b === void 0 ? void 0 : b.students.length);
+    const classroomsData = yield Promise.all(classrooms.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield classroomClient.getClassroom(el.classId);
+        const sessionData = yield sessionClient.getAbsence(el.sessionId);
+        return {
+            id: data === null || data === void 0 ? void 0 : data.id,
+            attends: (data === null || data === void 0 ? void 0 : data.students.length) - sessionData.length,
+            absence: sessionData.length,
+        };
+    })));
+    const attendances = classroomsData.reduce((a, b) => {
+        return a + b.attends;
     }, 0);
-    return res.json({ hihi: classrooms, allStudent });
+    const absences = classroomsData.reduce((a, b) => {
+        return a + b.absence;
+    }, 0);
+    return res.json({
+        attendances,
+        absences,
+        currentClassrooms: classrooms.length,
+        classrooms: classroomsData,
+    });
 }));
 exports.default = router;

@@ -35,7 +35,7 @@ class ClassroomClient {
                 querySnapshot.forEach((doc) => {
                     students.push(Object.assign({ id: doc.id }, doc.data()));
                 });
-                return Object.assign(Object.assign({}, docSnap.data()), { students });
+                return Object.assign(Object.assign({}, docSnap.data()), { students, id: docSnap.id });
             }
             return null;
         });

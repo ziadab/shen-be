@@ -10,16 +10,31 @@ const classroomClient = new ClassroomClient()
 router.get("/", async (req, res) => {
   const allSession = await sessionClient.getCurrentSessions()
   const classrooms = classroomExtractor(allSession)
-  const classroomData = await Promise.all(
-    classrooms.map(async (el) => await classroomClient.getClassroom(el))
+  const classroomsData = await Promise.all(
+    classrooms.map(async (el) => {
+      const data = await classroomClient.getClassroom(el.classId)
+      const sessionData = await sessionClient.getAbsence(el.sessionId)
+      return {
+        id: data?.id,
+        attends: data?.students.length! - sessionData.length,
+        absence: sessionData.length,
+      }
+    })
   )
-
-  console.log(classroomData)
-  const allStudent = classroomData.reduce((a, b) => {
-    return a + b?.students.length!
+  const attendances = classroomsData.reduce((a, b) => {
+    return a + b.attends
   }, 0)
 
-  return res.json({ hihi: classrooms, allStudent })
+  const absences = classroomsData.reduce((a, b) => {
+    return a + b.absence
+  }, 0)
+
+  return res.json({
+    attendances,
+    absences,
+    currentClassrooms: classrooms.length,
+    classrooms: classroomsData,
+  })
 })
 
 export default router
