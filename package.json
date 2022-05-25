@@ -9,7 +9,9 @@
     "watch": "tsc --watch",
     "test": "jest",
     "hygen:route": "hygen routes new",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc",
+    "postinstall": "yarn build"
   },
   "keywords": [],
   "author": "",
