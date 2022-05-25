@@ -49,7 +49,7 @@ export default class StudentClient {
 
   async getAbsence(id: string, month: number, year: number) {
     const updatedData: Absence[] = [];
-    let monthlyReport = {};
+    let monthlyReport: any = [];
 
     const firstDay = dayjs(new Date(year, month, 0)).utc().startOf("month");
     const endDay = dayjs(firstDay).utc().endOf("month");
@@ -69,12 +69,15 @@ export default class StudentClient {
     });
 
     for (let i = 1; i <= endDay.daysInMonth(); i++) {
-      monthlyReport[i] =
-        updatedData.length == 0
-          ? 0
-          : updatedData.filter((el) => el.dayInMonth == i).length;
+      monthlyReport.push({
+        x: i,
+        y:
+          updatedData.length == 0
+            ? 0
+            : updatedData.filter((el) => el.dayInMonth == i).length,
+      });
     }
 
-    return monthlyReport;
+    return { id: "Absence", data: monthlyReport };
   }
 }
