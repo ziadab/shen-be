@@ -5,6 +5,13 @@ import { createStudent } from "../validations/student.validation";
 const router = Router();
 const studentClient = new StudentClient();
 
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = await studentClient.getStudent(id);
+  if (data != null) return res.json(data);
+  return res.status(404).json({ message: "student not found" });
+});
+
 router.post("/", async (req, res) => {
   const { error, value } = createStudent.validate(req.body);
   if (error) {
