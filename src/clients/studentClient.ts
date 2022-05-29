@@ -12,6 +12,9 @@ import {
 import { db } from ".";
 import { createStudent, Absence } from "../types";
 import dayjs from "dayjs";
+import SessionClient from "./sessionClient";
+
+const sessionClient = new SessionClient();
 export default class StudentClient {
   async createStudent(student: createStudent) {
     const docRef = await addDoc(collection(db, "students"), student);
@@ -38,6 +41,11 @@ export default class StudentClient {
 
   async deleteStudent(id: string) {
     const docRef = doc(db, "students", id);
+    const q = query(collection(db, "session"), where("classId", "==", id));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (el) => {
+      await sessionClient.deleteSession(el.id);
+    });
     await deleteDoc(docRef);
   }
 
