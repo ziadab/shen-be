@@ -9,6 +9,7 @@ const classroomClient = new ClassroomClient();
 
 router.get("/", async (req, res) => {
   const allSession = await sessionClient.getCurrentSessions();
+  console.log(allSession)
   const classrooms = classroomExtractor(allSession);
   const classroomsData = await Promise.all(
     classrooms.map(async (el) => {
@@ -17,6 +18,8 @@ router.get("/", async (req, res) => {
       const attends = data?.students.length! - sessionData.length;
       return {
         id: data?.id,
+        // @ts-ignore
+        abbreviation: data?.abbreviation,
         attends: isNaN(attends) ? 0 : attends,
         absence: sessionData.length,
       };
