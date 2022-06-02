@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import { Document } from "mongoose";
 
 export type csvParserType = {
   massarCode: string;
@@ -57,3 +58,14 @@ export type Absence = {
 };
 
 export type createSessions = Array<Session>;
+
+export interface RegisterInput {
+  email: string;
+  pwd: string;
+}
+
+export interface Admin extends Document {
+  email: string;
+  pwd: string;
+  profileImg: string;
+}
