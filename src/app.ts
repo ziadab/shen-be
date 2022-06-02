@@ -31,4 +31,6 @@ app.use("/generate", generateRouter);
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 
+app.disable("x-powered-by");
+
 export default app;

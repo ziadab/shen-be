@@ -1,18 +1,19 @@
 import { Router } from "express";
+import isAuth from "middlewares/isAuth";
 import StudentClient from "../clients/studentClient";
 import { createStudent } from "../validations/student.validation";
 
 const router = Router();
 const studentClient = new StudentClient();
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isAuth, async (req, res) => {
   const id = req.params.id;
   const data = await studentClient.getStudent(id);
   if (data != null) return res.json(data);
   return res.status(404).json({ message: "student not found" });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAuth, async (req, res) => {
   const { error, value } = createStudent.validate(req.body);
   if (error) {
     const message = error.details.map((details) => details.message).join(", ");
@@ -23,7 +24,7 @@ router.post("/", async (req, res) => {
   return res.status(200).json(student);
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", isAuth, async (req, res) => {
   const id = req.params.id;
 
   const { error, value } = createStudent.validate(req.body);
@@ -35,13 +36,13 @@ router.patch("/:id", async (req, res) => {
   res.status(200).json(data);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAuth, async (req, res) => {
   const id = req.params.id;
   await studentClient.deleteStudent(id);
   return res.status(201).send("deleted");
 });
 
-router.get("/:id/absence", async (req, res) => {
+router.get("/:id/absence", isAuth, async (req, res) => {
   const studentId = req.params.id;
   const { month, year } = req.query;
   if (parseInt(month!.toString()) > 12 || parseInt(month!.toString()) < 0) {

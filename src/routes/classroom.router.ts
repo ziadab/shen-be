@@ -7,6 +7,7 @@ import * as classroomValidation from "../validations/classroom.validation";
 import { extname } from "path";
 import { csvParserType } from "../types";
 import { join } from "path";
+import isAuth from "middlewares/isAuth";
 
 const classroomRouter = Router();
 const classroomClient = new ClassroomClient();
@@ -14,12 +15,12 @@ const studentClient = new StudentClient();
 
 const upload = multer({ dest: join(__dirname, "../uploads") });
 
-classroomRouter.get("/", async (req, res) => {
+classroomRouter.get("/", isAuth, async (req, res) => {
   const classrooms = await classroomClient.getAllClassroom();
   res.json(classrooms).status(200);
 });
 
-classroomRouter.get("/:id", async (req, res) => {
+classroomRouter.get("/:id", isAuth, async (req, res) => {
   const classroom = await classroomClient.getClassroom(req.params.id);
   if (classroom) {
     return res.status(200).json(classroom);
@@ -27,12 +28,12 @@ classroomRouter.get("/:id", async (req, res) => {
   return res.status(404).send("Not found");
 });
 
-classroomRouter.delete("/:id", async (req, res) => {
+classroomRouter.delete("/:id", isAuth, async (req, res) => {
   await classroomClient.deleteClassroom(req.params.id);
   return res.status(201).send("deleted");
 });
 
-classroomRouter.post("/", async (req, res) => {
+classroomRouter.post("/", isAuth, async (req, res) => {
   const { error, value } = classroomValidation.createClassroom.validate(
     req.body
   );
@@ -49,35 +50,40 @@ classroomRouter.post("/", async (req, res) => {
   return res.status(200).json({ status: 200, data });
 });
 
-classroomRouter.post("/:id/upload", upload.single("file"), async (req, res) => {
-  const teacher = await classroomClient.getClassroom(req.params.id);
-  if (!teacher)
-    return res.status(400).json({ message: "not found", code: 400 });
+classroomRouter.post(
+  "/:id/upload",
+  isAuth,
+  upload.single("file"),
+  async (req, res) => {
+    const teacher = await classroomClient.getClassroom(req.params.id);
+    if (!teacher)
+      return res.status(400).json({ message: "not found", code: 400 });
 
-  if (req.file) {
-    if (extname(req.file?.originalname!) != ".csv")
-      return res
-        .status(400)
-        .json({ message: "file not supported (only .csv)" });
+    if (req.file) {
+      if (extname(req.file?.originalname!) != ".csv")
+        return res
+          .status(400)
+          .json({ message: "file not supported (only .csv)" });
 
-    const students: any[] = [];
-    csvParser(req.file)
-      .on("data", async (student: csvParserType) => {
-        students.push(
-          studentClient.createStudent({
-            classId: req.params.id,
-            massarCode: student.massarCode,
-            name: student.name,
-          })
-        );
-      })
-      .on("end", async () => {
-        const data = await Promise.all(students);
-        return res.status(200).json({ data, code: 200 });
-      });
-  } else {
-    return res.status(400).send("No file uploaded");
+      const students: any[] = [];
+      csvParser(req.file)
+        .on("data", async (student: csvParserType) => {
+          students.push(
+            studentClient.createStudent({
+              classId: req.params.id,
+              massarCode: student.massarCode,
+              name: student.name,
+            })
+          );
+        })
+        .on("end", async () => {
+          const data = await Promise.all(students);
+          return res.status(200).json({ data, code: 200 });
+        });
+    } else {
+      return res.status(400).send("No file uploaded");
+    }
   }
-});
+);
 
 export default classroomRouter;

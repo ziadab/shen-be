@@ -2,14 +2,14 @@ import SessionClient from "../clients/sessionClient";
 import { Router } from "express";
 import classroomExtractor from "../utils/classroomExtractor";
 import ClassroomClient from "../clients/classroomClient";
+import isAuth from "middlewares/isAuth";
 
 const router = Router();
 const sessionClient = new SessionClient();
 const classroomClient = new ClassroomClient();
 
-router.get("/", async (req, res) => {
+router.get("/", isAuth, async (req, res) => {
   const allSession = await sessionClient.getCurrentSessions();
-  console.log(allSession)
   const classrooms = classroomExtractor(allSession);
   const classroomsData = await Promise.all(
     classrooms.map(async (el) => {

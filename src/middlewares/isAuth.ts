@@ -10,6 +10,7 @@ const isAuth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "") as {
       _id: Schema.Types.ObjectId;
     };
+
     const user = await Admin.findOne({ _id: decoded["_id"] });
     if (!user) {
       throw new Error();

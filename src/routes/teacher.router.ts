@@ -56,7 +56,7 @@ teacherRoute.post("/:id/sessions", async (req, res) => {
 
   if (!classroomExist || !teacherExist)
     return res
-      .status(401)
+      .status(400)
       .json({ message: "teacher or classroom does not exist", status: 401 });
 
   const data = await sessionClient.createSession(value);
