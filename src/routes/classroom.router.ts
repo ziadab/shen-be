@@ -7,7 +7,7 @@ import * as classroomValidation from "../validations/classroom.validation";
 import { extname } from "path";
 import { csvParserType } from "../types";
 import { join } from "path";
-import isAuth from "middlewares/isAuth";
+import { isAuth } from "../middleware/isAuth";
 
 const classroomRouter = Router();
 const classroomClient = new ClassroomClient();

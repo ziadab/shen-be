@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { RegisterInput } from "types";
-import { Admin } from "schemas/admin";
+import { RegisterInput } from "../types";
+import { Admin } from "../schemas/admin";
 import bcrypt from "bcryptjs";
 
 const router = Router();

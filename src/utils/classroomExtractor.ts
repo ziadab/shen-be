@@ -1,4 +1,4 @@
-import { Session } from "../types"
+import { Session } from "../types";
 
 export default (
   sessions: Session[]
@@ -7,6 +7,6 @@ export default (
     return {
       classId: session.classId,
       sessionId: session.id,
-    }
-  })
-}
+    };
+  });
+};

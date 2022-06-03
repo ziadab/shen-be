@@ -1,10 +1,11 @@
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { Schema } from "mongoose";
-import { Admin } from "schemas/admin";
+import { Admin } from "../schemas/admin";
 
-const isAuth = async (req, res, next) => {
+const isAuth = async (req: Request, res: Response, next) => {
   try {
-    const token = req.header("Authorization").replace("Bearer ", "");
+    const token = req.header("Authorization")?.replace("Bearer ", "");
     if (!token) throw Error();
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "") as {
@@ -15,6 +16,7 @@ const isAuth = async (req, res, next) => {
     if (!user) {
       throw new Error();
     }
+    //@ts-ignore
     req.user = user;
     next();
   } catch (e) {
@@ -22,4 +24,4 @@ const isAuth = async (req, res, next) => {
   }
 };
 
-export default isAuth;
+export { isAuth };

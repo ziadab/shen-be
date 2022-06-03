@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { RegisterInput } from "types";
-import { Admin } from "schemas/admin";
-import generateProfileImg from "utils/generateProfileImg";
-import { createAdmin } from "validations/registration.validation";
-import allowRegiter from "middlewares/allowRegisters";
+import { RegisterInput } from "../types";
+import { Admin } from "../schemas/admin";
+import generateProfileImg from "../utils/generateProfileImg";
+import { createAdmin } from "../validations/registration.validation";
+import allowRegiter from "../middleware/allowRegisters";
 
 const router = Router();
 

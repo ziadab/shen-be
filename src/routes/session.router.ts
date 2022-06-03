@@ -2,7 +2,7 @@ import * as sessionValidation from "../validations/session.validation";
 import SessionClient from "../clients/sessionClient";
 import { Router } from "express";
 import { Session } from "../types";
-import isAuth from "middlewares/isAuth";
+import { isAuth } from "../middleware/isAuth";
 
 const sessionClient = new SessionClient();
 const router = Router();

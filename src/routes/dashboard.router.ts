@@ -2,7 +2,7 @@ import SessionClient from "../clients/sessionClient";
 import { Router } from "express";
 import classroomExtractor from "../utils/classroomExtractor";
 import ClassroomClient from "../clients/classroomClient";
-import isAuth from "middlewares/isAuth";
+import { isAuth } from "../middleware/isAuth";
 
 const router = Router();
 const sessionClient = new SessionClient();

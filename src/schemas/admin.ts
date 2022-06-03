@@ -1,8 +1,8 @@
 import { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Admin } from "types";
-import database from "database";
+import { Admin } from "../types";
+import database from "../database";
 
 const adminSchema = new Schema({
   profileImage: {

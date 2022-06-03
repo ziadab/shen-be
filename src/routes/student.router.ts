@@ -1,5 +1,5 @@
 import { Router } from "express";
-import isAuth from "middlewares/isAuth";
+import { isAuth } from "../middleware/isAuth";
 import StudentClient from "../clients/studentClient";
 import { createStudent } from "../validations/student.validation";
 

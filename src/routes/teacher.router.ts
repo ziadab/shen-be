@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { isAuth } from "../middleware/isAuth";
 import ClassroomClient from "../clients/classroomClient";
 import SessionClient from "../clients/sessionClient";
 import TeacherClient from "../clients/teacherClient";
-import { createSessions, Session } from "../types";
+import { Session } from "../types";
 import * as sessionValidation from "../validations/session.validation";
 import * as teacherValidation from "../validations/teacher.validation";
 
@@ -11,12 +12,12 @@ const teacherClient = new TeacherClient();
 const sessionClient = new SessionClient();
 const classroomClient = new ClassroomClient();
 
-teacherRoute.get("/", async (req, res) => {
+teacherRoute.get("/", isAuth, async (req, res) => {
   const teachers = await teacherClient.getAllTeacher();
   res.json(teachers).status(200);
 });
 
-teacherRoute.get("/:id", async (req, res) => {
+teacherRoute.get("/:id", isAuth, async (req, res) => {
   const teacher = await sessionClient.getSessionByTeacherId(req.params.id);
   if (teacher) {
     return res.status(200).json(teacher);
@@ -24,12 +25,12 @@ teacherRoute.get("/:id", async (req, res) => {
   return res.status(404).send("Not found");
 });
 
-teacherRoute.delete("/:id", async (req, res) => {
+teacherRoute.delete("/:id", isAuth, async (req, res) => {
   await teacherClient.deleteTeacher(req.params.id);
   return res.status(201).send("deleted");
 });
 
-teacherRoute.post("/", async (req, res) => {
+teacherRoute.post("/", isAuth, async (req, res) => {
   const { error, value } = teacherValidation.createTeacher.validate(req.body);
   if (error) {
     const message = error.details.map((details) => details.message).join(", ");
@@ -40,7 +41,7 @@ teacherRoute.post("/", async (req, res) => {
   return res.status(200).json({ status: 200, data });
 });
 
-teacherRoute.post("/:id/sessions", async (req, res) => {
+teacherRoute.post("/:id/sessions", isAuth, async (req, res) => {
   const reqData: Session = req.body;
   const { error, value } = sessionValidation.updateSession.validate(reqData);
 
