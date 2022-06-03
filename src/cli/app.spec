@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-block_cipher = pyi_crypto.PyiBlockCipher(key='mamamiawino')
+block_cipher = pyi_crypto.PyiBlockCipher(key='mamamiaAlberto')
 
 
 a = Analysis(
@@ -41,4 +41,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='icon.ico',
 )

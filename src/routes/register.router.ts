@@ -3,11 +3,11 @@ import { RegisterInput } from "../types";
 import { Admin } from "../schemas/admin";
 import generateProfileImg from "../utils/generateProfileImg";
 import { createAdmin } from "../validations/registration.validation";
-import allowRegiter from "../middleware/allowRegisters";
+import allowRegister from "../middleware/allowRegisters";
 
 const router = Router();
 
-router.post("/", allowRegiter, async (req, res) => {
+router.post("/", allowRegister, async (req, res) => {
   const data: RegisterInput = req.body;
 
   const { error } = createAdmin.validate(data);
