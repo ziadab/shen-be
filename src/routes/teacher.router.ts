@@ -64,4 +64,31 @@ teacherRoute.post("/:id/sessions", isAuth, async (req, res) => {
   return res.status(200).json(data);
 });
 
+// router.patch("/:id", isAuth, async (req, res) => {
+//   const id = req.params.id;
+
+//   const { error, value } = createStudent.validate(req.body);
+//   if (error) {
+//     const message = error.details.map((details) => details.message).join(", ");
+//     return res.status(400).json({ message, code: 400 });
+//   }
+//   const data = await studentClient.updateStudent(id, value);
+//   res.status(200).json(data);
+// });
+
+teacherRoute.patch("/:id", isAuth, async (req, res) => {
+  const id = req.params.id;
+  const teacherExist = await teacherClient.getTeacher(id);
+  if (!teacherExist) return res.json({ message: "Teacher doesn't exist" });
+
+  const { error, value } = teacherValidation.createTeacher.validate(req.body);
+  if (error) {
+    const message = error.details.map((details) => details.message).join(", ");
+    return res.status(400).json({ message, code: 400 });
+  }
+
+  const data = await teacherClient.updateTeacher(id, req.body);
+  return res.json(data);
+});
+
 export default teacherRoute;

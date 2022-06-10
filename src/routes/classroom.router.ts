@@ -86,4 +86,23 @@ classroomRouter.post(
   }
 );
 
+classroomRouter.patch("/:id", isAuth, async (req, res) => {
+  const id = req.params.id;
+
+  const classroomExist = await classroomClient.getClassroom(id);
+  if (!classroomExist) return res.json({ message: "Classroom doesn't exist" });
+
+  const { error, value } = classroomValidation.createClassroom.validate(
+    req.body
+  );
+
+  if (error) {
+    const message = error.details.map((details) => details.message).join(", ");
+    return res.status(400).json({ message, code: 400 });
+  }
+
+  const data = await classroomClient.updateClassroom(id, req.body);
+  return res.json(data);
+});
+
 export default classroomRouter;

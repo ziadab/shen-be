@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from ".";
 import { Users } from "../enums/users";
@@ -44,5 +45,11 @@ export default class TeacherClient {
     });
 
     return teachers;
+  }
+
+  async updateTeacher(id: string, data: Teacher) {
+    const docRef = doc(db, "teachers", id);
+    await updateDoc(docRef, { ...data });
+    return this.getTeacher(id);
   }
 }

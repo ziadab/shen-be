@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register -r  dotenv/config main.ts",
+    "dev": "tsnd --respawn --transpile-only -r tsconfig-paths/register -r  dotenv/config main.ts",
     "start": "nodemon ./build/main.js",
     "watch": "tsc --watch",
     "test": "jest",

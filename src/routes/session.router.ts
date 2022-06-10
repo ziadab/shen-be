@@ -17,6 +17,9 @@ router.patch("/:id", isAuth, async (req, res) => {
   const id = req.params.id;
   const sessionData: Session = req.body;
 
+  const sessionExist = await sessionClient.getSessionById(id);
+  if (!sessionExist) return res.json({ message: "Session doesn't exist" });
+
   const { error, value } =
     sessionValidation.updateSession.validate(sessionData);
   if (error) {

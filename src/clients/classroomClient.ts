@@ -7,8 +7,10 @@ import {
   query,
   where,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from ".";
+import { Classroom } from "../types";
 
 export default class ClassroomClient {
   docRef = collection(db, "classroom");
@@ -52,5 +54,10 @@ export default class ClassroomClient {
     });
 
     return classrooms;
+  }
+  async updateClassroom(id: string, data: Classroom) {
+    const docRef = doc(db, "classroom", id);
+    await updateDoc(docRef, { ...data });
+    return this.getClassroom(id);
   }
 }

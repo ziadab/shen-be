@@ -27,6 +27,9 @@ router.post("/", isAuth, async (req, res) => {
 router.patch("/:id", isAuth, async (req, res) => {
   const id = req.params.id;
 
+  const studentExist = await studentClient.getStudent(id);
+  if (!studentExist) return res.json({ message: "Student doesn't exist" });
+
   const { error, value } = createStudent.validate(req.body);
   if (error) {
     const message = error.details.map((details) => details.message).join(", ");

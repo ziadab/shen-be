@@ -1,5 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import { Document } from "mongoose";
+import { Users } from "../enums/users";
 
 export type csvParserType = {
   massarCode: string;
@@ -43,13 +44,6 @@ export type DashboardData = {
   classrooms: classroomDetail[];
 };
 
-type HubSpotType = {
-  contact_owner: string;
-  ep_firstname: string;
-  ep_lastname: string;
-  ep_mail: string;
-};
-
 export type Absence = {
   sessionId: string;
   studentId: string;
@@ -68,4 +62,12 @@ export interface Admin extends Document {
   email: string;
   pwd: string;
   profileImg: string;
+}
+
+export interface Teacher {
+  fullname: string;
+  email: string;
+  role: Users;
+  invitationCode: string;
+  loginId: string;
 }
