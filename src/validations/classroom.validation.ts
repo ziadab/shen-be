@@ -1,8 +1,8 @@
-import Joi from "joi"
+import Joi from "joi";
 
 const createClassroom = Joi.object().keys({
   name: Joi.string().required().min(10),
-  abbreviation: Joi.string().required().max(3),
-})
+  abbreviation: Joi.string().required().max(5),
+});
 
-export { createClassroom }
+export { createClassroom };
