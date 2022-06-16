@@ -19,6 +19,7 @@ export default class TeacherClient {
       role: Users.teacher,
       invitationCode: generateFixRandomNumber(4),
       loginId: "",
+      image: "me.jpg",
     });
 
     return await this.getTeacher(docRef.id);
